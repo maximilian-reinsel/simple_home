@@ -2,8 +2,9 @@ import asyncio
 
 from pylutron_caseta.smartbridge import Smartbridge
 
+# Script for testing connections.
 async def example():
-    bridge = Smartbridge.create_tls("192.168.1.190", "/home/maxreinsel/.config/pylutron_caseta/192.168.1.190.key", "/home/maxreinsel/.config/pylutron_caseta/192.168.1.190.crt", "/home/maxreinsel/.config/pylutron_caseta/192.168.1.190-bridge.crt")
+    bridge = Smartbridge.create_tls("192.168.1.190", "<ip>.key", "<ip>.crt", "<ip>-bridge.crt")
     await bridge.connect()
     device = bridge.get_devices_by_domain("cover")[0]
     print("turning on device")
