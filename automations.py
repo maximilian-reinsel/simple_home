@@ -124,7 +124,7 @@ def _get_automations(raw_dictionary: dict, devices: dict) -> List[Automation]:
     return automations
 
 def get_automations() -> List[Automation]:
-    with open("automation_exp.yaml", "r") as f:
+    with open("automation.yaml", "r") as f:
         s = f.read()
     raw_dictionary = yaml.safe_load(s)
     devices = _get_devices(raw_dictionary)
