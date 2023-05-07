@@ -1,0 +1,62 @@
+# sample automation file which uses all features available today
+# this version is accellerated for faster testing
+timezone: pacific
+
+devices:
+  - name: Dining Room_Left Window
+    type: shade
+    location_tags: ["Living_Room"]
+  - name: Dining Room_Right Window
+    type: shade
+    location_tags: ["Living_Room"]
+  - name: Master Bedroom_Left Shade
+    type: shade
+    location_tags: ["Bed_Room"]
+  - name: Master Bedroom_Center Window
+    type: shade
+    location_tags: ["Bed_Room"]
+  - name: Master Bedroom_Right Window
+    type: shade
+    location_tags: ["Bed_Room"]
+  - name: Electric_Switch_1
+    type: switch
+
+automations:
+  - name: Morning_Bedroom_Partial
+    schedule:
+      cron: "0,6,12,18,24,30,36,42,48,54 * * * *"
+    devices:
+      device_list:
+        - name: Master Bedroom_Left Shade
+          value: 34
+        - name: Master Bedroom_Center Window
+          value: 34
+        - name: Master Bedroom_Right Window
+          value: 10
+  - name: Morning_Bedroom_Full
+    schedule: 
+      cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
+    devices:
+      tags: ["Bed_Room"]
+    setting: open
+  - name: Morning_Living_Room
+    schedule: 
+      cron: "2,8,14,20,26,32,38,44,50,56 * * * *"
+    devices:
+      tags: ["Living_Room"]
+    setting: 66
+  - name: Summer_Evening_Living_Room
+    schedule: 
+      cron: "3,9,15,21,27,33,39,45,51,57 * * * *"
+    devices:
+      tags: ["Living_Room"]
+    setting: open
+  - name: Evening_All_Close
+    schedule:
+      cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
+      sunset:
+        hours: 1
+    devices:
+      tags: ["Living_Room", "Bed_Room"]
+    setting: closed
+        

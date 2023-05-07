@@ -1,16 +1,33 @@
 import asyncio
+from automations import get_automations
 from temporalio.client import Client
+from temporal_workflow import RunShadeAutomation
 
-from temporal_workflow import SayHello
+from async_utils import await_all
 
 async def main():
-    # Create client connected to server at the given address
+    automations = get_automations()
+
     client = await Client.connect("localhost:7233")
+    print("CONNECTED")
 
-    # Execute a workflow
-    result = await client.execute_workflow(SayHello.run, "my name", id="my-workflow-id", task_queue="my-task-queue")
+    results = []
 
-    print(f"Result: {result}")
+    for automation in automations:
+        # Create client connected to server at the given address
+        name = automation.name
+        cron = automation.schedule.cron_for_start
+        print("-----")
+        print(automation)
+        print("-----")
+        print(automation.name)
+        print("-----")
+        handle = await client.start_workflow(RunShadeAutomation.run, automation, id=automation.name, task_queue="shade-controls", cron_schedule=cron)
+        results.append(handle.result())
+
+    print(f"Submitted {len(results)} workflows.")
+
+    await await_all(results)
 
 if __name__ == "__main__":
     asyncio.run(main())
